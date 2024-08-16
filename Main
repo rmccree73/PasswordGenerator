@@ -1,0 +1,43 @@
+import random
+import string
+
+class PasswordGenerator:
+    def __init__(self, length, capitalize, numbers, specialchars):
+        self.length = length
+        self.capitalize = capitalize
+        self.numbers = numbers
+        self.specialchars = specialchars
+
+    def password_generation(self):
+        available_characters = string.ascii_lowercase  # Start with lowercase letters
+        
+        if self.capitalize == 'y':
+            available_characters += string.ascii_uppercase  # Add uppercase letters
+        if self.numbers == 'y':
+            available_characters += string.digits  # Add digits
+        if self.specialchars == 'y':
+            available_characters += string.punctuation  # Add special characters
+
+        # Ensure the length does not exceed the number of available characters
+        if self.length > len(available_characters):
+            raise ValueError("Requested length exceeds the number of available characters.")
+
+        password = ''.join(random.choice(available_characters) for _ in range(self.length))
+        return password
+
+def main():
+    capitalize = input("(y/n) : Capitalized Letters? ")
+    numbers = input("(y/n) : Numbers? ")
+    specialchars = input("(y/n) : Special Characters? ")
+    
+    # Set a desired password length (e.g., 12)
+    length = int(input("Enter the desired password length: "))
+
+    # Create an instance of PasswordGenerator with user inputs
+    generator = PasswordGenerator(length, capitalize, numbers, specialchars)
+    password = generator.password_generation()
+    
+    print("Generated Password:", password)
+
+if __name__ == "__main__":
+    main()
